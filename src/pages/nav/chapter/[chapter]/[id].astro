@@ -1,0 +1,81 @@
+---
+import CustomLayout from '../../../../layouts/customLayout.astro';
+import fetchApi from '../../../../lib/strapi';
+
+// const CustomizeButton = await import('../button.jsx');
+
+interface Article {
+	attributes:{
+		slug: string;
+		title: string;
+		description: string;
+    header:string;
+    toolbar:string;
+    style:object;
+	},
+	id:number
+}
+
+
+const { chapter , id } = Astro.params;
+
+const articles = await fetchApi<Article[]>({
+  endpoint: `articles/${id}`,
+  wrappedByKey: 'data',
+}).catch(()=>{
+  return Astro.redirect('/404');
+})
+
+if(articles == null){
+  return Astro.redirect('/404');
+}
+
+for(let key in (articles as any).attributes.style){
+  eval(`const ${key} = '${(articles as any).attributes.style[key]}'`)
+}
+
+// {
+//   "background": "green",
+//   "color": "aliceblue",
+//   "margin": "20px"
+// }
+
+export function getStaticPaths() {
+  return [
+    {params: {chapter: String,id: Number}}
+  ];
+}
+
+const frontmatter = {
+  title:'入门',
+  header:(articles as any).attributes.header == 'true' ? true : false,
+  toolbar:(articles as any).attributes.toolbar == 'true' ? true : false
+}
+
+const background = (articles as any).attributes.style['background']
+const color = (articles as any).attributes.style['color']
+const margin = (articles as any).attributes.style['margin']
+
+---
+<script>
+  
+</script>
+
+<CustomLayout frontmatter={frontmatter}>
+  <div>Hello, {chapter}{id}!</div>
+  <div class="articles">
+    {JSON.stringify(articles)}
+  </div>
+  <!-- <CustomizeButton/> -->
+</CustomLayout>
+
+<style define:vars={{ background, color , margin }}>
+  .articles{
+    background-color: var(--background);
+    color: var(--color);
+    padding: 25px;
+    width: 1000px;
+    border-radius: 20px;
+    margin: var(--margin);
+  }
+</style>

@@ -1,0 +1,35 @@
+---
+import CustomLayout from "../../layouts/customLayout.astro";
+import App from "../../components/react/dnd"
+import PageNameBox from '../../components/pageName.astro'
+import DescribesBox from '../../components/describes.astro'
+const frontmatter = {
+  title:'示例',
+  header:true,
+  toolbar:true
+}
+
+const pageName = "astro示例演示界面"
+const describes = {
+  title:'Astro 介绍',
+  content:'Astro 是最适合构建像博客、营销网站、电子商务网站这样的以内容驱动的网站的 Web 框架。Astro 以开创了一种新的前端架构而闻名，与其他框架相比它减少了 JavaScript 的开销和复杂性。如果你需要一个加载速度快、具有良好 SEO 的网站，那么 Astro 就是你的选择。',
+  list:[
+    '群岛：一种基于组件的针对内容驱动的网站进行优化的 Web 架构。',
+    'UI 无关：支持 React、Preact、Svelte、Vue、Solid、Lit、HTMX、Web 组件等等。',
+    '服务器优先：将沉重的渲染移出访问者的设备。',
+    '默认无 JS：更少减慢你网站速度的客户端 JavaScript。',
+    '内容集合：组织、验证你的 Markdown 内容，并提供 TypeScript 类型安全。',
+    '可定制：Tailwind、MDX 和数百个集成可供选择。'
+  ]
+}
+
+---
+<CustomLayout frontmatter={frontmatter}>
+  <div class="container">
+    
+    <PageNameBox pageName={pageName} />
+    <DescribesBox frontmatter={describes} />
+
+    <App/>
+  </div>
+</CustomLayout>

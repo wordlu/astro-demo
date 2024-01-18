@@ -1,0 +1,14 @@
+---
+import CustomLayout from "../../layouts/customLayout.astro";
+import Abc from './abc.vue'
+
+const frontmatter = {
+  title:'自定义界面',
+  header:true,
+  toolbar:true
+}
+---
+
+<CustomLayout frontmatter={frontmatter}>
+  <Abc client:only/>
+</CustomLayout>

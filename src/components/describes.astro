@@ -1,0 +1,49 @@
+---
+const { frontmatter} = Astro.props;
+---
+
+<div class="describes">
+  
+  <div class="content">
+    <div class="title">
+      {frontmatter.title}:
+    </div>
+
+    {frontmatter.content}
+
+    <ul class="list">
+      {frontmatter.list.map((p: unknown) => (
+        <li class="list-item">
+          {p}  
+        </li>
+      ))}
+    </ul>
+  </div>
+
+</div>
+
+<style>
+  .describes{
+    padding: 10px;
+  }
+  .title{
+    font-size: 20px;
+    color: pink;
+    line-height: 48px;
+  }
+  .content{
+    width: 1000px;
+    background-color: black;
+    border-radius: 20px;
+    padding: 20px;
+    color: aliceblue;
+  }
+  .list{
+    margin-top: 30px;
+    padding: 0px 20px;
+  }
+  .list-item{
+    padding: 8px 0px;
+    /* background-color:  */
+  }
+</style>

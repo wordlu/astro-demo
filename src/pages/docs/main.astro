@@ -1,0 +1,22 @@
+---
+import CustomLayout from "../../layouts/customLayout.astro";
+import { allBlogPosts } from '../../content/search';
+
+const docs = "文档界面"
+const frontmatter = {
+  title:'文档界面',
+  header:true,
+  toolbar:true
+}
+---
+<CustomLayout frontmatter={frontmatter}>
+  <div class="docs">
+    {docs}
+
+    {allBlogPosts.map(p => (
+      <div>
+        <a href={`/docs/${p.slug}`}>{p.data.title}</a>
+      </div>
+    ))}
+  </div>
+</CustomLayout>

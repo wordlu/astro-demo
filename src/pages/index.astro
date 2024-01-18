@@ -1,0 +1,89 @@
+---
+import CustomLayout from '../layouts/customLayout.astro';
+import Card from '../components/Card.astro';
+
+interface Article {
+	attributes:{
+		slug: string;
+		title: string;
+		description: string;
+	},
+	id:number
+}
+
+const frontmatter = {
+  title:'首页',
+  header:true,
+  toolbar:true
+}
+
+import fetchApi from '../lib/strapi';
+
+const articles = await fetchApi<Article[]>({
+  endpoint: 'articles',
+  wrappedByKey: 'data',
+});
+---
+
+<CustomLayout frontmatter={frontmatter}>
+	<main>
+		<div class="entrance">
+			<Card	
+				href="/example/main"
+				title="example"
+				body="示例演示"
+			/>
+
+			<Card
+				href="http://dms.10.86.14.200.nip.io/"
+				title="liangdao dms shell"
+				body="亮道 DMS 功能整合平台"
+			/>
+
+			<Card	
+				href="/docs/main"
+				title="Islands docs"
+				body="文档集合"
+			/>
+ 
+			<Card	
+				href="/customPage/main"
+				title="Custom Page"
+				body="自定义界面搭建"
+			/>
+			
+			{
+				articles.map((article) => (
+					<Card
+						href={`${(article as Article).attributes.slug}/${(article as Article).id}`}
+						title={(article as Article).attributes.title}
+						body={(article as Article).attributes.description}
+					/>
+				))
+			}
+		</div>
+		
+	</main>
+</CustomLayout>
+
+<style is:inline>
+	.entrance{
+		width: 100%;
+		display: flex;
+		height: 100%;
+		padding: 20px 15px;
+		flex-wrap: wrap;
+	}
+
+	@media screen and (max-width: 880px) {
+		.entrance{
+			display: flex;
+			flex-direction: column;
+		}
+		.link-card{
+			width: 100%!important;
+			margin-right: 0px;
+			margin-bottom: 8px;
+		}
+	}
+</style>

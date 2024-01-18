@@ -1,0 +1,21 @@
+---
+interface Props {
+	pageName: string;
+}
+
+const { pageName } = Astro.props;
+---
+
+<div>
+  <i>
+    {pageName}
+  </i>
+</div>
+
+<style>
+  i{
+    padding: 10px;
+    font-weight: 600;
+    font-size: 36px;
+  }
+</style>

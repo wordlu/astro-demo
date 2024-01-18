@@ -1,0 +1,48 @@
+---
+export const prerender = true;
+import CustomLayout from "../../layouts/customLayout.astro";
+import { type CollectionEntry, getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+	const posts = await getCollection('docs');
+	return posts.map((post) => ({
+		params: { slug: post.slug },
+		props: post,
+	}));
+}
+type Props = CollectionEntry<'docs'>;
+
+const post = Astro.props;
+const { Content } = await post.render();
+
+const frontmatter = {
+  title:'文档',
+  header:true,
+  toolbar:true
+}
+---
+<CustomLayout frontmatter={frontmatter}>
+	<div class="Content">
+		<div class="md">
+			<Content />
+		</div>
+	</div>
+	
+</CustomLayout>
+
+
+<style is:inline>
+.Content{
+	width: calc(100vw - 60px);
+	padding: 20px;
+	height: 90vh;
+	overflow: auto;
+	display: flex;
+	justify-content: center;
+}
+.md{
+	width: 1200px;
+	display: flex;
+	flex-direction: column;
+}
+</style>

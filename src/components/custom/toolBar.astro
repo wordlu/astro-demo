@@ -1,0 +1,132 @@
+---
+interface Props {
+  hidden:boolean
+}
+const handoff = 's-unfold'
+
+const tools = [
+  {
+    path:'/nav/base',
+    title:'入门',
+    icon:'../../../public/base.svg'
+  },{
+    path:'/',
+    title:'',
+    icon:''
+  },{
+    path:'/',
+    title:'',
+    icon:''
+  },{
+    path:'/',
+    title:'',
+    icon:''
+  }
+]
+
+const { hidden } = Astro.props
+
+---
+
+<script>
+  document.getElementById('handoff')?.addEventListener('click', clickHandler, false);
+
+  function clickHandler(_arg:any){
+    const dom = document.getElementsByClassName('toolBar')[0]
+    const img = document.getElementById('imgId')
+    const c = dom.getAttribute('class')
+    if(c?.indexOf('unfold') !== -1){
+      dom.classList.remove('unfold')
+      dom.classList.add('fold')
+      img?.setAttribute('src','../../../public/s-fold.svg')
+    }else if(c?.indexOf('def') !== -1){
+      dom.classList.remove('def')
+      dom.classList.add('fold')
+      img?.setAttribute('src','../../../public/s-fold.svg')
+    }else{
+      dom.classList.remove('fold')
+      dom.classList.add('unfold')
+      img?.setAttribute('src','../../../public/s-unfold.svg')
+    }
+  }
+</script>
+
+<div class:list={[`toolBar def`, { hidden: !hidden } ]}>
+  <div id="handoff">
+    <img id="imgId" src={`../../../public/${handoff}.svg`} alt="">
+  </div>
+  <div class="tools">
+    {tools.map(p => (
+      <div class="tools-item">
+        <a href={p.path}>
+          <img src={p.icon} alt="" style="width:20px" />
+        </a>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style is:inline>
+.toolBar{
+  background: rgb(32, 32, 32);
+}
+#handoff{
+  display: flex;
+  justify-content: center;
+  padding: 10px 0;
+  cursor: pointer;
+  min-width: 60px;
+}
+
+#handoff>img{
+  width: 24px;
+}
+
+.unfold{
+  width: 60px;
+  animation-duration: .5s;
+  animation-name: unfold;
+} 
+
+.fold{
+  width: 200px;
+  animation-duration: .5s;
+  animation-name: fold;
+}
+
+.tools{
+  width: 100%;
+}
+
+.tools-item{
+  width: 100%;
+}
+
+.tools-item img{
+  margin: 8px 20px;
+}
+
+.hidden{
+  display: none;
+}
+
+@keyframes unfold {
+  from {
+    width: 200px;
+  }
+
+  to {
+    width: 60px;
+  }
+}
+
+@keyframes fold {
+  from {
+    width: 60px;
+  }
+
+  to {
+    width: 200px;
+  }
+}
+</style>

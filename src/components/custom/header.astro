@@ -1,0 +1,84 @@
+---
+import Dropdown from '../Dropdown/dropdown.astro'
+interface Props {
+  logo:string
+  title:string
+  hidden:boolean
+}
+
+const { hidden , logo , title } = Astro.props
+
+let dropdownProps = {
+  show:false,
+  apps:[
+    {
+      router:'',
+      title:'',
+      id:1
+    },{
+      router:'',
+      title:'',
+      id:2
+    },{
+      router:'',
+      title:'',
+      id:3
+    }
+  ],
+  top:10,
+  left:30,
+  right:false,
+  bottom:false
+}
+---
+
+<script>
+  document.getElementById('dropdownImg')?.addEventListener('click', clickHandler, false);
+
+  function clickHandler(){
+    const dom = document.getElementsByClassName('dropdown')[0]
+    const c = dom.getAttribute('class')
+    if(c?.indexOf('hidden') !== -1){
+      dom.classList.remove('hidden')
+    }else{
+      dom.classList.add('hidden')
+    }
+  }
+</script>
+
+<div class:list={[ 'header', { hidden: !hidden } ]}>
+  <span class="apps">
+    <img id="dropdownImg" src="../../../public/app.svg" style="margin-right: 15px;cursor: pointer;" alt="">
+    <Dropdown dropdown={dropdownProps}/>
+  </span>
+  <img style="margin:0px 15px;" src={logo} />
+  <span class="title">{title}</span>
+</div>
+
+<style is:inline>
+  .header{
+    width:100%;
+    height:40px;
+    display: flex;
+    align-items: center;
+    padding: 30px 16px;
+    background:rgba(0, 0, 0, 0.8);
+  }
+
+  .title{
+    font-size: 18px;
+    font-weight: 600;
+    color: aliceblue;
+  }
+
+  .apps{
+    display: flex;
+    align-items: center;
+    border-right: 1px solid #ffffff;
+  }
+
+  .hidden{
+    display: none;
+  }
+
+</style>
